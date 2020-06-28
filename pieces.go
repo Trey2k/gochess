@@ -44,7 +44,7 @@ func loadPicture(path string) (pixel.Picture, error) {
 	return pixel.PictureDataFromImage(img), nil
 }
 
-func initPieces(tilePos [][]pixel.Vec) {
+func initPieces() {
 	var err error
 	spritesheet, err = loadPicture("./assets/chessSprite.png")
 	if err != nil {
@@ -61,8 +61,8 @@ func initPieces(tilePos [][]pixel.Vec) {
 		i++
 	}
 
-	whiteSet = initSet(pieceFrames, tilePos, false)
-	blackSet = initSet(pieceFrames, tilePos, true)
+	whiteSet = initSet(pieceFrames, false)
+	blackSet = initSet(pieceFrames, true)
 
 	initBoard = true
 	moving = false
@@ -113,7 +113,7 @@ func updateBoard(batch *pixel.Batch) {
 	}
 }
 
-func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pieceSet {
+func initSet(pieceFrames [2][6]pixel.Rect, black bool) pieceSet {
 	var f int
 	var s int
 	var ps int
@@ -138,7 +138,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 	set = pieceSet{
 		pieces: []piece{
 			{
-				pos:         tilePos[ps][0],
+				pos:         board[ps][0].pos,
 				frame:       pawnFrme,
 				class:       0,
 				tileNumUp:   ps,
@@ -146,7 +146,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[ps][1],
+				pos:         board[ps][1].pos,
 				frame:       pawnFrme,
 				class:       0,
 				tileNumUp:   ps,
@@ -154,7 +154,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[ps][2],
+				pos:         board[ps][2].pos,
 				frame:       pawnFrme,
 				class:       0,
 				tileNumUp:   ps,
@@ -162,7 +162,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[ps][3],
+				pos:         board[ps][3].pos,
 				frame:       pawnFrme,
 				class:       0,
 				tileNumUp:   ps,
@@ -170,7 +170,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[ps][4],
+				pos:         board[ps][4].pos,
 				frame:       pawnFrme,
 				class:       0,
 				tileNumUp:   ps,
@@ -178,7 +178,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[ps][5],
+				pos:         board[ps][5].pos,
 				frame:       pawnFrme,
 				class:       0,
 				tileNumUp:   ps,
@@ -186,7 +186,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[ps][6],
+				pos:         board[ps][6].pos,
 				frame:       pawnFrme,
 				class:       0,
 				tileNumUp:   ps,
@@ -194,7 +194,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[ps][7],
+				pos:         board[ps][7].pos,
 				frame:       pawnFrme,
 				class:       0,
 				tileNumUp:   ps,
@@ -202,7 +202,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[s][1],
+				pos:         board[s][1].pos,
 				frame:       knightFrme,
 				class:       1,
 				tileNumUp:   s,
@@ -210,7 +210,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[s][6],
+				pos:         board[s][6].pos,
 				frame:       knightFrme,
 				class:       1,
 				tileNumUp:   s,
@@ -218,7 +218,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[s][0],
+				pos:         board[s][0].pos,
 				frame:       rookFrme,
 				class:       2,
 				tileNumUp:   s,
@@ -226,7 +226,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[s][7],
+				pos:         board[s][7].pos,
 				frame:       rookFrme,
 				class:       2,
 				tileNumUp:   s,
@@ -234,7 +234,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[s][2],
+				pos:         board[s][2].pos,
 				frame:       bishopFrme,
 				class:       3,
 				tileNumUp:   s,
@@ -242,7 +242,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[s][5],
+				pos:         board[s][5].pos,
 				frame:       bishopFrme,
 				class:       3,
 				tileNumUp:   s,
@@ -250,7 +250,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[s][4],
+				pos:         board[s][4].pos,
 				frame:       queenFrme,
 				class:       4,
 				tileNumUp:   s,
@@ -258,7 +258,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, tilePos [][]pixel.Vec, black bool) pi
 				black:       black,
 			},
 			{
-				pos:         tilePos[s][3],
+				pos:         board[s][3].pos,
 				frame:       kingFrme,
 				class:       5,
 				tileNumUp:   s,

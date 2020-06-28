@@ -23,8 +23,7 @@ type boardStruct []row
 
 var board boardStruct
 
-func grid(gridSize int, tileScale, posX, posY float64) (*imdraw.IMDraw, [][]pixel.Vec) {
-	var returnSquarePos [][]pixel.Vec
+func grid(gridSize int, tileScale, posX, posY float64) *imdraw.IMDraw {
 
 	grid := imdraw.New(nil)
 
@@ -35,8 +34,6 @@ func grid(gridSize int, tileScale, posX, posY float64) (*imdraw.IMDraw, [][]pixe
 	y := posY
 
 	for i := 0; i < gridSize; i++ {
-
-		var squarePos []pixel.Vec
 		var apRow row
 
 		for j := 0; j < gridSize; j++ {
@@ -54,7 +51,6 @@ func grid(gridSize int, tileScale, posX, posY float64) (*imdraw.IMDraw, [][]pixe
 			midX := (x + (x + tileScale)) / 2
 			midY := (y + (y - tileScale)) / 2
 
-			squarePos = append(squarePos, pixel.V(midX, midY))
 			apRow = append(apRow, square{
 				occupied: false,
 				max:      pixel.V(midX+(tileScale/2), midY+(tileScale/2)),
@@ -73,8 +69,6 @@ func grid(gridSize int, tileScale, posX, posY float64) (*imdraw.IMDraw, [][]pixe
 				black = true
 			}
 		}
-
-		returnSquarePos = append(returnSquarePos, squarePos)
 		board = append(board, apRow)
 
 		x = posX
@@ -86,5 +80,5 @@ func grid(gridSize int, tileScale, posX, posY float64) (*imdraw.IMDraw, [][]pixe
 	grid.Push(pixel.V(x, y), pixel.V(posX+(tileScale*float64(gridSize)), posY+(tileScale/float64(gridSize+1))/2))
 	grid.Rectangle(10)
 
-	return grid, returnSquarePos
+	return grid
 }

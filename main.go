@@ -22,8 +22,8 @@ func run() {
 		panic(err)
 	}
 
-	board, tilePos := grid(8, 90, win.Bounds().W()/2, win.Bounds().H()/2)
-	initPieces(tilePos)
+	board := grid(8, 90, win.Bounds().W()/2, win.Bounds().H()/2)
+	initPieces()
 
 	batch := pixel.NewBatch(&pixel.TrianglesData{}, spritesheet)
 
