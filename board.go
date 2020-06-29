@@ -8,13 +8,14 @@ import (
 )
 
 type square struct {
-	occupied bool
-	occupint *piece
-	max      pixel.Vec
-	min      pixel.Vec
-	pos      pixel.Vec
-	up       int
-	side     int
+	occupied  bool
+	occupint  *piece
+	max       pixel.Vec
+	min       pixel.Vec
+	pos       pixel.Vec
+	up        int
+	side      int
+	attackers []*piece
 }
 
 type row []square

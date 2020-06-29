@@ -9,18 +9,20 @@ import (
 )
 
 type piece struct {
-	pos         pixel.Vec
-	frame       pixel.Rect
-	class       int
-	tileNumUp   int
-	tileNumSide int
-	moves       int
-	black       bool
-	dead        bool
+	pos           pixel.Vec
+	frame         pixel.Rect
+	class         int
+	tileNumUp     int
+	tileNumSide   int
+	moves         int
+	black         bool
+	dead          bool
+	possibleMoves []*square
 }
 
 type pieceSet struct {
 	pieces []piece
+	black  bool
 }
 
 var whiteSet pieceSet
@@ -83,8 +85,13 @@ func (set *pieceSet) init(batch *pixel.Batch) {
 func (set *pieceSet) update(batch *pixel.Batch) {
 	for i := 0; i < len(set.pieces); i++ {
 		if !set.pieces[i].dead {
-			cehssPiece := pixel.NewSprite(spritesheet, set.pieces[i].frame)
-			cehssPiece.Draw(batch, pixel.IM.Moved(set.pieces[i].pos).Scaled(set.pieces[i].pos, 0.3))
+			if !moving {
+				cehssPiece := pixel.NewSprite(spritesheet, set.pieces[i].frame)
+				cehssPiece.Draw(batch, pixel.IM.Moved(set.pieces[i].pos).Scaled(set.pieces[i].pos, 0.3))
+			} else if &set.pieces[i] != movingPiece {
+				cehssPiece := pixel.NewSprite(spritesheet, set.pieces[i].frame)
+				cehssPiece.Draw(batch, pixel.IM.Moved(set.pieces[i].pos).Scaled(set.pieces[i].pos, 0.3))
+			}
 		}
 	}
 }
@@ -94,7 +101,7 @@ func (p *piece) moveUpdate(batch *pixel.Batch) {
 	whiteSet.update(batch)
 	blackSet.update(batch)
 	cehssPiece := pixel.NewSprite(spritesheet, p.frame)
-	cehssPiece.Draw(batch, pixel.IM.Moved(p.pos).Scaled(p.pos, 0.4))
+	cehssPiece.Draw(batch, pixel.IM.Moved(p.pos).Scaled(p.pos, 0.45))
 }
 
 func updateBoard(batch *pixel.Batch) {
@@ -136,6 +143,7 @@ func initSet(pieceFrames [2][6]pixel.Rect, black bool) pieceSet {
 	kingFrme := pieceFrames[f][0]
 
 	set = pieceSet{
+		black: black,
 		pieces: []piece{
 			{
 				pos:         board[ps][0].pos,

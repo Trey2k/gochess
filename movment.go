@@ -76,21 +76,21 @@ func (p *piece) tryMove(square, oldSquare *square, i, j int, found *bool) {
 		} else if !square.occupied {
 			if p.moves == 0 {
 				if p.black {
-					if square.side == oldSquare.side && square.up >= oldSquare.up && square.up <= oldSquare.up+2 {
+					if square.side == oldSquare.side && square.up > oldSquare.up && square.up <= oldSquare.up+2 {
 						p.move(square, oldSquare, i, j, found)
 					}
 				} else {
-					if square.side == oldSquare.side && square.up <= oldSquare.up && square.up >= oldSquare.up-2 {
+					if square.side == oldSquare.side && square.up < oldSquare.up && square.up >= oldSquare.up-2 {
 						p.move(square, oldSquare, i, j, found)
 					}
 				}
 			} else {
 				if p.black {
-					if square.side == oldSquare.side && square.up >= oldSquare.up && square.up <= oldSquare.up+1 {
+					if square.side == oldSquare.side && square.up > oldSquare.up && square.up <= oldSquare.up+1 {
 						p.move(square, oldSquare, i, j, found)
 					}
 				} else {
-					if square.side == oldSquare.side && square.up <= oldSquare.up && square.up >= oldSquare.up-1 {
+					if square.side == oldSquare.side && square.up < oldSquare.up && square.up >= oldSquare.up-1 {
 						p.move(square, oldSquare, i, j, found)
 					}
 				}
@@ -108,4 +108,32 @@ func (p *piece) move(square, oldSquare *square, i, j int, found *bool) {
 	square.occupied = true
 	square.occupint = movingPiece
 	*found = true
+}
+
+func (set *pieceSet) updatePossibleMoves() {
+	for i := 0; i < len(set.pieces); i++ {
+		if set.pieces[i].class == 0 { //Pawn check
+
+		}
+	}
+}
+
+func (p *piece) updatePawnMovers() {
+	p.possibleMoves = nil //Resetting possible moves
+	if p.moves == 0 {
+		if p.black {
+			if !board[p.tileNumUp+1][p.tileNumSide].occupied { //Up 1 check
+				p.possibleMoves = append(p.possibleMoves, &board[p.tileNumUp+1][p.tileNumSide])
+			}
+
+			if !board[p.tileNumUp+2][p.tileNumSide].occupied { //Up 2 check
+				p.possibleMoves = append(p.possibleMoves, &board[p.tileNumUp+2][p.tileNumSide])
+			}
+
+			if p.tileNumUp != 7 && board[p.tileNumUp+1][p.tileNumSide+1].occupied { //Diag right check
+
+			}
+		}
+
+	}
 }
